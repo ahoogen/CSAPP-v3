@@ -42,7 +42,7 @@ x >> 4:    0000 0001          0000 0110
 |=:        0001 0001          0110 0110
 x >> 2:    0000 0100          0001 1001
 |=:        0001 0101          0111 1111
-x >> 1:    0000 1010          0011 0011
+x >> 1:    0000 1010          0011 1111
 |=:        0001 1111          0111 1111
 
 Now that we have this bit pattern, we can isolate the most significant bit of x:
