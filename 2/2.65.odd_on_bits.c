@@ -14,10 +14,17 @@ operations.
 #include <stdio.h>
 
 int odd_ones(unsigned x) {
-
-    return 0;
+    x = (x >> 16) ^ (x & 0x0000FFFF);
+    x = (x >> 8) ^ (x & 0x00FF);
+    x = (x >> 4) ^ (x & 0x0F);
+    x = (x >> 2) ^ (x & 0x3);
+    return x;
 }
 
 int main() {
+    unsigned x = 0x82AC3DF7;
+    printf("0x%08X has odd number of bits? %d\n", x, odd_ones(x));
+    x = 0x92AC3DF7;
+    printf("0x%08X has odd number of bits? %d\n", x, odd_ones(x));
     return 0;
 }
