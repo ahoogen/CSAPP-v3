@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include <limits.h>
 /*
 Write code for a function whith the following prototype:
 
@@ -14,23 +14,18 @@ that perform digital signal processing.
 Your function should follow the bit-level integer coding rules on page 165.
 */
 
-#define TMax (((unsigned)1 << ((sizeof(int) << 3) - 1)) - 1)
-#define TMin -(TMax + 1)
-
 int saturating_add(int x, int y) {
-    int w = sizeof(int) << 3;
-    int sign_mask = 1 << (w-1);
     int sum = x + y;
 
-    int x_sign = x & sign_mask;
-    int y_sign = y & sign_mask;
-    int sum_sign = sum & sign_mask;
+    int x_sign = x & INT_MIN;
+    int y_sign = y & INT_MIN;
+    int sum_sign = sum & INT_MIN;
 
     int pos_over = ~x_sign & ~y_sign & sum_sign;
     int neg_over = x_sign & y_sign & ~sum_sign;
 
-    (pos_over) && (sum = TMax);
-    (neg_over) && (sum = TMin);
+    (pos_over) && (sum = INT_MIN);
+    (neg_over) && (sum = INT_MAX);
 
     return sum;
 }
@@ -105,17 +100,17 @@ the sedond operands are the statements executed when a case is matched.
 */
 
 int main() {
-    printf("TMax is: %d\n", TMax);
-    printf("TMin is: %d\n", TMin);
-    int x = TMax - 1;
+    printf("INT_MAX is: %d\n", INT_MAX);
+    printf("INT_MIN is: %d\n", INT_MIN);
+    int x = INT_MAX - 1;
     int y = 1;
     printf("%d + %d = %d\n", x, y, saturating_add(x, y));
-    x = TMax;
+    x = INT_MAX;
     printf("%d + %d = %d\n", x, y, saturating_add(x, y));
-    x = TMin + 1;
+    x = INT_MIN + 1;
     y = -1;
     printf("%d + %d = %d\n", x, y, saturating_add(x, y));
-    x = TMin;
+    x = INT_MIN;
     printf("%d + %d = %d\n", x, y, saturating_add(x, y));
     x = -10;
     y = 10;
